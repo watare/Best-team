@@ -1,0 +1,13 @@
+{
+  "name": "faceblend-scripts",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "offer": "node generate-offer.mjs",
+    "slides": "node generate-slides.mjs"
+  },
+  "dependencies": {
+    "docx": "^8.5.0",
+    "pptxgenjs": "^3.12.0"
+  }
+}

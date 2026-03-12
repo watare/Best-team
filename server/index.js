@@ -38,6 +38,7 @@ app.get('/health', (req, res) => {
 })
 
 app.listen(PORT, () => {
-  console.log(`FaceBlend server running on http://localhost:${PORT}`)
-  console.log(`Replicate API: ${process.env.REPLICATE_API_TOKEN && process.env.REPLICATE_API_TOKEN !== 'your_token_here' ? 'configured' : 'not configured (using fallback)'}`)
+  console.log(`TryOn AI server running on http://localhost:${PORT}`)
+  const hasToken = process.env.REPLICATE_API_TOKEN && process.env.REPLICATE_API_TOKEN !== 'your_token_here'
+  console.log(`Replicate API: ${hasToken ? 'configured' : 'NOT configured — set REPLICATE_API_TOKEN in .env'}`)
 })

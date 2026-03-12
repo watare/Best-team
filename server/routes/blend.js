@@ -1,14 +1,13 @@
 import express from 'express'
 import multer from 'multer'
-import { swapFaces } from '../services/faceSwap.js'
+import { tryOnClothes } from '../services/faceSwap.js'
 
 const router = express.Router()
 
-// Use memory storage — no files written to disk for uploads
 const storage = multer.memoryStorage()
 const upload = multer({
   storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB per file
+  limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith('image/')) {
       cb(null, true)
@@ -19,35 +18,36 @@ const upload = multer({
 })
 
 // POST /api/blend
-// Fields: source (face to swap in), target (background/body image)
 router.post(
   '/',
   upload.fields([
-    { name: 'source', maxCount: 1 },
-    { name: 'target', maxCount: 1 }
+    { name: 'person', maxCount: 1 },
+    { name: 'garment', maxCount: 1 }
   ]),
   async (req, res) => {
     try {
       const files = req.files
 
-      if (!files || !files.source || !files.target) {
+      if (!files || !files.person || !files.garment) {
         return res.status(400).json({
-          error: 'Both "source" and "target" image fields are required.'
+          error: 'Both "person" and "garment" image fields are required.'
         })
       }
 
-      const sourceBuffer = files.source[0].buffer
-      const targetBuffer = files.target[0].buffer
+      const personBuffer = files.person[0].buffer
+      const garmentBuffer = files.garment[0].buffer
+      const category = req.body.category || 'upper_body'
+      const garmentDesc = req.body.garmentDesc || 'clothing item'
 
-      const resultBuffer = await swapFaces(sourceBuffer, targetBuffer)
+      const resultBuffer = await tryOnClothes(personBuffer, garmentBuffer, category, garmentDesc)
 
       res.set('Content-Type', 'image/jpeg')
       res.set('Content-Length', resultBuffer.length)
       res.status(200).send(resultBuffer)
     } catch (err) {
-      console.error('Face swap error:', err)
+      console.error('Try-on error:', err)
       res.status(500).json({
-        error: 'Face swap failed.',
+        error: 'Virtual try-on failed.',
         details: err.message
       })
     }

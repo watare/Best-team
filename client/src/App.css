@@ -140,6 +140,82 @@
   flex-shrink: 0;
 }
 
+/* ===== Options Row ===== */
+.options-row {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.option-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.option-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.option-hint {
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.category-pills {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pill {
+  padding: 0.45rem 1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.pill:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.pill--active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.garment-input {
+  width: 100%;
+  padding: 0.55rem 0.85rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.garment-input::placeholder {
+  color: var(--text-muted);
+}
+
+.garment-input:focus {
+  border-color: var(--accent);
+}
+
 /* ===== Error Banner ===== */
 .error-banner {
   display: flex;
@@ -284,6 +360,21 @@
 @keyframes bounce {
   0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
   30% { transform: translateY(-10px); opacity: 1; }
+}
+
+.loading-steps {
+  text-align: left;
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 0.5rem;
+}
+
+.loading-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  opacity: 0.7;
 }
 
 /* ===== Footer ===== */

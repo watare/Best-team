@@ -1,10 +1,9 @@
 import { useRef, useEffect } from 'react'
 import './ResultPanel.css'
 
-export default function ResultPanel({ imageUrl }) {
+export default function ResultPanel({ imageUrl, originalUrl }) {
   const panelRef = useRef(null)
 
-  // Scroll the result into view smoothly when it appears
   useEffect(() => {
     if (panelRef.current) {
       panelRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -14,12 +13,12 @@ export default function ResultPanel({ imageUrl }) {
   const handleDownload = () => {
     const link = document.createElement('a')
     link.href = imageUrl
-    link.download = `faceblend-result-${Date.now()}.jpg`
+    link.download = `tryon-result-${Date.now()}.jpg`
     link.click()
   }
 
   return (
-    <section className="result-panel" ref={panelRef} aria-label="Blend result">
+    <section className="result-panel" ref={panelRef} aria-label="Try-on result">
       {/* Divider */}
       <div className="result-divider" aria-hidden="true">
         <span className="result-divider__line" />
@@ -37,18 +36,25 @@ export default function ResultPanel({ imageUrl }) {
         <div className="result-card__header">
           <div className="result-card__title-row">
             <span className="result-card__success-dot" aria-hidden="true" />
-            <h2 className="result-card__title">Blend Complete</h2>
+            <h2 className="result-card__title">Try-On Complete</h2>
           </div>
-          <p className="result-card__subtitle">Your face-blended image is ready to download</p>
+          <p className="result-card__subtitle">Your virtual fitting result is ready</p>
         </div>
 
-        <div className="result-card__image-wrap">
-          <img
-            src={imageUrl}
-            alt="Face blend result"
-            className="result-card__image"
-          />
-          <div className="result-card__image-glow" aria-hidden="true" />
+        <div className="result-card__comparison">
+          {originalUrl && (
+            <div className="result-card__compare-col">
+              <span className="result-card__compare-label">Before</span>
+              <img src={originalUrl} alt="Original photo" className="result-card__image" />
+            </div>
+          )}
+          <div className="result-card__compare-col">
+            {originalUrl && <span className="result-card__compare-label result-card__compare-label--after">After</span>}
+            <div className="result-card__image-wrap">
+              <img src={imageUrl} alt="Virtual try-on result" className="result-card__image" />
+              <div className="result-card__image-glow" aria-hidden="true" />
+            </div>
+          </div>
         </div>
 
         <div className="result-card__actions">

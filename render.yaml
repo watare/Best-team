@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: tryon-ai
+    runtime: node
+    plan: free
+    buildCommand: npm run install:all && npm run build
+    startCommand: npm start
+    envVars:
+      - key: REPLICATE_API_TOKEN
+        sync: false
+      - key: NODE_ENV
+        value: production

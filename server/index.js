@@ -37,6 +37,15 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() })
 })
 
+// In production, serve the React frontend
+const clientDist = path.join(__dirname, '..', 'client', 'dist')
+if (fs.existsSync(clientDist)) {
+  app.use(express.static(clientDist))
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(clientDist, 'index.html'))
+  })
+}
+
 app.listen(PORT, () => {
   console.log(`TryOn AI server running on http://localhost:${PORT}`)
   const hasToken = process.env.REPLICATE_API_TOKEN && process.env.REPLICATE_API_TOKEN !== 'your_token_here'
